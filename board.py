@@ -54,6 +54,11 @@ class Queen(Pawn):
 class Knight(Pawn):
     def hit(self, listPawn):
         count = 0
+        for pawn in listPawn:
+            if abs(self.x - pawn.x) == 2 and abs(self.y - pawn.y) == 1 or abs(self.x - pawn.x) == 1 and abs(self.y - pawn.y) == 2:
+                count = count + 1
+        return count
+     
 
 class Bishop(Pawn):
     def hit(self, listPawn):
@@ -69,7 +74,41 @@ class Bishop(Pawn):
 
 class Rook(Pawn):
     def hit(self, listPawn):
+        def hit(self, listPawn):
         count = 0
+        a = self.x - 1
+        Found = False
+        while ((a >= 0) and not Found):
+            for pawn in listPawn:
+                if pawn.y == self.y:
+                    Found = True
+                    count += 1
+            a -= 1
+        a = self.x + 1
+        Found = False
+        while ((a <= 7) and not Found):
+            for pawn in listPawn:
+                if pawn.y == self.y:
+                    Found = True
+                    count += 1
+            a += 1
+        a = self.y - 1
+        Found = False
+        while ((a >= 0) and not Found):
+            for pawn in listPawn:
+                if pawn.x == self.x:
+                    Found = True
+                    count += 1
+            a -= 1
+        a = self.y + 1
+        Found = False
+        while ((a <= 7) and not Found):
+            for pawn in listPawn:
+                if pawn.x == self.x:
+                    Found = True
+                    count += 1
+            a += 1
+        return count
 
 class Board:
     def __init__(color, listBidak):
