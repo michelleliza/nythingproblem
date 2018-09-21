@@ -64,6 +64,7 @@ class Bishop(Pawn):
                 for pawn in listPawn:
                     if (x == pawn.x) and (y == pawn.y):
                         count += 1
+        
         return count
 
 class Rook(Pawn):
