@@ -54,6 +54,11 @@ class Queen(Pawn):
 class Knight(Pawn):
     def hit(self, listPawn):
         count = 0
+        for pawn in listPawn:
+            if abs(self.x - pawn.x) == 2 and abs(self.y - pawn.y) == 1 or abs(self.x - pawn.x) == 1 and abs(self.y - pawn.y) == 2:
+                count = count + 1
+        return count
+     
 
 class Bishop(Pawn):
     def hit(self, listPawn):
