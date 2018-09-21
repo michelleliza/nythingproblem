@@ -66,7 +66,6 @@ class Bishop(Pawn):
 
 class Rook(Pawn):
     def hit(self, listPawn):
-        def hit(self, listPawn):
         count = 0
         a = self.x - 1
         Found = False
