@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from random import randint
 
 def outRange(x, y) :
     return x < 0 or y < 0 or x > 7 or y > 7
@@ -21,21 +22,21 @@ class Queen(Pawn):
         count = 0
 
         # cek utara
-        count += checkHit(self, listPawn, 0, -1)
+        count += self.checkHit(listPawn, 0, -1)
         # cek timur laut
-        count += checkHit(self, listPawn, 1, -1)
+        count += self.checkHit(listPawn, 1, -1)
         # cek timur
-        count += checkHit(self, listPawn, 1, 0)
+        count += self.checkHit(listPawn, 1, 0)
         # cek tenggara
-        count += checkHit(self, listPawn, 1, 1)
+        count += self.checkHit(listPawn, 1, 1)
         # cek selatan
-        count += checkHit(self, listPawn, 0, 1)
+        count += self.checkHit(listPawn, 0, 1)
         # cek barat daya
-        count += checkHit(self, listPawn, -1, 1)
+        count += self.checkHit(listPawn, -1, 1)
         # cek barat
-        count += checkHit(self, listPawn, -1, 0)
+        count += self.checkHit(listPawn, -1, 0)
         # cek barat laut
-        count += checkHit(self, listPawn, -1, -1)
+        count += self.checkHit(listPawn, -1, -1)
 
         return count
     
@@ -102,4 +103,26 @@ class Rook(Pawn):
         return count
 
 class Board:
-    def __init__(color, listBidak):
+    def __init__(self, color, listPawn):
+        self.color = color
+        self.listPawn = listPawn
+        self.initPawn()
+
+    def initPawn(self):
+        listPos = []
+        for pawn in self.listPawn:
+            while True:
+                x = randint(0,7)
+                y = randint(0,7)
+                if (x,y) not in listPos :
+                    listPos.append((x, y))
+                    pawn.x = x
+                    pawn.y = y
+                    break
+
+    def cost(self):
+        count = 0
+        for pawn in self.listPawn :
+            count += pawn.hit(self.listPawn)
+
+        return count
