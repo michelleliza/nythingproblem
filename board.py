@@ -16,18 +16,39 @@ class Pawn(ABC):
     def hit(self, listPawn):
         pass
 
-# ngaksesnya langsung pawn.x atau pawn.y
 class Queen(Pawn):
     def hit(self, listPawn):
         count = 0
 
-        # cek atas
+        # cek utara
+        count += checkHit(self, listPawn, 0, -1)
+        # cek timur laut
+        count += checkHit(self, listPawn, 1, -1)
+        # cek timur
+        count += checkHit(self, listPawn, 1, 0)
+        # cek tenggara
+        count += checkHit(self, listPawn, 1, 1)
+        # cek selatan
+        count += checkHit(self, listPawn, 0, 1)
+        # cek barat daya
+        count += checkHit(self, listPawn, -1, 1)
+        # cek barat
+        count += checkHit(self, listPawn, -1, 0)
+        # cek barat laut
+        count += checkHit(self, listPawn, -1, -1)
+
+        return count
     
     def checkHit(self, listPawn, xAlpha, yAlpha):
-        x = self.x
-        y = self.y
-        while inRange(x,y):
-
+        x = self.x + xAlpha
+        y = self.y + yAlpha
+        while not outRange(x,y):
+            for pawn in listPawn:
+                if pawn.x == x and pawn.y == y :
+                    return 1
+            x += xAlpha
+            y += yAlpha
+        return 0
 
 
 class Knight(Pawn):
@@ -44,4 +65,3 @@ class Rook(Pawn):
 
 class Board:
     def __init__(color, listBidak):
-    
