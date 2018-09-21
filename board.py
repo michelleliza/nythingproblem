@@ -80,7 +80,7 @@ class Rook(Pawn):
         Found = False
         while ((a >= 0) and not Found):
             for pawn in listPawn:
-                if pawn.y == self.y:
+                if pawn.y == self.y and pawn.x == a:
                     Found = True
                     count += 1
             a -= 1
@@ -88,7 +88,7 @@ class Rook(Pawn):
         Found = False
         while ((a <= 7) and not Found):
             for pawn in listPawn:
-                if pawn.y == self.y:
+                if pawn.y == self.y and pawn.x == a:
                     Found = True
                     count += 1
             a += 1
@@ -96,7 +96,7 @@ class Rook(Pawn):
         Found = False
         while ((a >= 0) and not Found):
             for pawn in listPawn:
-                if pawn.x == self.x:
+                if pawn.x == self.x and pawn.y == a:
                     Found = True
                     count += 1
             a -= 1
@@ -104,7 +104,7 @@ class Rook(Pawn):
         Found = False
         while ((a <= 7) and not Found):
             for pawn in listPawn:
-                if pawn.x == self.x:
+                if pawn.x == self.x and pawn.y == a:
                     Found = True
                     count += 1
             a += 1
