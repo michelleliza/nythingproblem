@@ -25,6 +25,12 @@ class Bishop(Pawn):
     def hit(self, listPawn):
         count = 0
 
+        for x, y in range(0, 8):
+            if (abs(y - self.y)/abs(x - self.x)) == 1:
+                for pawn in listPawn:
+                    if (x == pawn.x) and (y == pawn.y):
+                        count += 1
+
 class Rook(Pawn):
     def hit(self, listPawn):
         count = 0
