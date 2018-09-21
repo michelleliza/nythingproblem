@@ -132,5 +132,4 @@ class Board:
         count = 0
         for pawn in self.listPawn :
             count += pawn.hit(self.listPawn)
-
         return count
