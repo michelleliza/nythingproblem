@@ -135,3 +135,17 @@ class Board:
             count += pawn.hit(self.listPawn)
 
         return count
+
+# for debug only
+def printListPawn(listPawn) :
+    for pawn in listPawn:
+        if isinstance(pawn, b.Queen):
+            print('Q', end=' ')
+        elif isinstance(pawn, b.Bishop):
+            print('B', end=' ')
+        elif isinstance(pawn, b.Rook):
+            print('R', end=' ')
+        elif isinstance(pawn, b.Knight):
+            print('K', end=' ')
+        print(pawn.x, end=' ')
+        print(pawn.y, end='\n')
