@@ -16,7 +16,7 @@ class SimulatedAnnealing() :
         # count is used for halt
         count = 0 
         # halt when n iteration doesn't get new solution (stuck) or get the same cost with new solution
-        halt = 500 
+        halt = 1000 
         # temperature decrease after n iteration
         decrease = 50
         while count < halt :
