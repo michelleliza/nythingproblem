@@ -16,14 +16,11 @@ class SimulatedAnnealing() :
         # count is used for halt
         count = 0 
         # halt when n iteration doesn't get new solution (stuck) or get the same cost with new solution
-        halt = 5000 
+        halt = 500 
         # temperature decrease after n iteration
         decrease = 50
         while count < halt :
             for i in range (0, decrease) :
-                if oldCost == 0 :
-                    # stop iteration when hit cost already 0
-                    return
                 # do random move and get new solution (temp)
                 newBoard = self.newSolutionSA()
                 # calculate new cost
@@ -35,13 +32,15 @@ class SimulatedAnnealing() :
                 if ap >= uniform(0, 1) :
                     # change the current solution to the new solution
                     self.board = newBoard
-                    oldCost = newCost
-
+                    
                     # add count if oldCost == newCost
                     if oldCost == newCost :
                         count += 1
                     else :
                         count = 0
+
+                    oldCost = newCost
+
                 else :
                     # keep the current solution
                     count += 1
