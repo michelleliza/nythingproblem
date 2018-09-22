@@ -51,6 +51,10 @@ class SimulatedAnnealing() :
                     else :
                         # keep the current solution
                         count += 1
+                
+                if newCost == 0 :
+                    # halt when cost is already 0 (global minima)
+                    return
 
             self.t *= self.alpha
         
