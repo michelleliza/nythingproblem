@@ -25,25 +25,32 @@ class SimulatedAnnealing() :
                 newBoard = self.newSolutionSA()
                 # calculate new cost
                 newCost = newBoard.cost()
-                # acceptance probabilty
-                ap = self.boltzman(oldCost, newCost)
                 
-                # if new cost < old cost the value of ap always > 1
-                if ap >= uniform(0, 1) :
+                if newCost < oldCost :
+                    # accept the solution because new solution is "good" moves
                     # change the current solution to the new solution
                     self.board = newBoard
-                    
-                    # add count if oldCost == newCost
-                    if oldCost == newCost :
-                        count += 1
-                    else :
-                        count = 0
-
                     oldCost = newCost
-
                 else :
-                    # keep the current solution
-                    count += 1
+                    # accept the solution ("bad" moves) only with probability
+                    # acceptance probabilty
+                    ap = self.boltzman(oldCost, newCost)
+
+                    if ap > uniform(0, 1) :
+                        # change the current solution to the new solution
+                        self.board = newBoard
+                        
+                        # add count if oldCost == newCost
+                        if oldCost == newCost :
+                            count += 1
+                        else :
+                            count = 0
+
+                        oldCost = newCost
+
+                    else :
+                        # keep the current solution
+                        count += 1
 
             self.t *= self.alpha
         
@@ -72,5 +79,9 @@ class SimulatedAnnealing() :
         try:
             return math.exp(-(newCost - oldCost)/self.t)
         except OverflowError:
-            # overflow when temperature too low so (limit approaching 0)
+            # overflow when temperature too low (limit approaching 0)
+            if newCost == oldCost :
+                # return 1 because exp(0) is 1
+                return 1
+            # newCost > oldCost
             return 0
