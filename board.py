@@ -77,17 +77,39 @@ class Bishop(Pawn):
 
 class Rook(Pawn):
     def hit(self, listPawn):
-        count = 0
-
-        # cek utara
-        count += self.checkHit(listPawn, 0, -1)
-        # cek timur
-        count += self.checkHit(listPawn, 1, 1)
-        # cek selatan
-        count += self.checkHit(listPawn, -1, 1)
-        # cek barat
-        count += self.checkHit(listPawn, -1, -1)
-
+         count = 0
+        a = self.x - 1
+        Found = False
+        while ((a >= 0) and not Found):
+            for pawn in listPawn:
+                if pawn.y == self.y and pawn.x == a:
+                    Found = True
+                    count += 1
+            a -= 1
+        a = self.x + 1
+        Found = False
+        while ((a <= 7) and not Found):
+            for pawn in listPawn:
+                if pawn.y == self.y and pawn.x == a:
+                    Found = True
+                    count += 1
+            a += 1
+        a = self.y - 1
+        Found = False
+        while ((a >= 0) and not Found):
+            for pawn in listPawn:
+                if pawn.x == self.x and pawn.y == a:
+                    Found = True
+                    count += 1
+            a -= 1
+        a = self.y + 1
+        Found = False
+        while ((a <= 7) and not Found):
+            for pawn in listPawn:
+                if pawn.x == self.x and pawn.y == a:
+                    Found = True
+                    count += 1
+            a += 1
         return count
 
 class Board:
