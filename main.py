@@ -1,6 +1,7 @@
 import board as b
 import sa
 import copy
+import ga
 
 def readFile(filename):
     listPawn = []
@@ -57,6 +58,7 @@ def output(board):
 
 fn = input("Please enter filename: ")
 listPawn = readFile(fn)
-
-tes = sa.SimulatedAnnealing(listPawn)
-output(tes.board)
+popNum = int(input("Enter number of population: "))
+maxIter = int(input("Enter number of maximum iteration: "))
+tes = ga.GeneticAlgorithm(listPawn, popNum, maxIter)
+output(tes.result)

@@ -115,7 +115,6 @@ class Rook(Pawn):
 class Board:
     def __init__(self, listPawn):
         self.listPawn = listPawn
-        self.initPawn()
 
     def initPawn(self):
         listPos = []
