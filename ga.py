@@ -5,39 +5,45 @@ import math
 
 class GeneticAlgorithm():
 
-    def __init__(self, listPawn):
+    def __init__(self, listPawn, popNum, maxIteration):
         # initial config
-        self.board1 = b.Board(listPawn)
-        self.board2 = b.Board(listPawn)
-        self.board3 = b.Board(listPawn)
-        self.board4 = b.Board(listPawn)
-        self.population = [self.board1, self.board2, self.board3, self.board4]
-        self.fitness = [self.FitnessFunction(self.population[0]), self.FitnessFunction(self.population[1]), self.FitnessFunction(self.population[2]), self.FitnessFunction(self.population[3])]
-        
+        self.population = []
+        self.fitness = []
+        for i in range(popNum):
+            bt = b.Board(listPawn)
+            self.population.append(bt)
+            self.fitness.append(self.FitnessFunction(bt))
+
         iteration = 0
-        maxFitness = self.maxAttack(self.board1)
+        maxFitness = self.maxAttack(self.population)
 
         while True:
 
-            if iteration == 1000 or (maxFitness in self.fitness):
-                break
-
             tempPopulation = []
+            while len(self.population) > 0:
+                maks = max(self.fitness)
+                idxToRemove = self.fitness.index(maks)
+                tempPopulation.append(self.population[idxToRemove])
+                del(self.population[idxToRemove])
+                del(self.fitness[idxToRemove])                
+
+            self.population = []
+            self.fitness = []
+            for i in range(0, 2, popNum):
+                new1 = self.crossOver(tempPopulation[i], tempPopulation[i+1])
+                new2 = self.crossOver(tempPopulation[i+1], tempPopulation[i])
+                self.population.append(new1)
+                self.population.append(new2)
+                self.fitness.append(new1)
+                self.fitness.append(new2)
+
+            iteration += 1    
+ 
+            if iteration == 1 or (maxFitness in self.fitness):
+                break
             
-            for i in range(len(self.population)):
-                p = self.population[self.fitness.index(max(self.fitness))]
-                tempPopulation.append(p)
-                self.fitness.remove(max(self.fitness))
-                self.population.remove(p)
-            
-            self.population = [
-                self.crossOver(tempPopulation[0], tempPopulation[1]),
-                self.crossOver(tempPopulation[1], tempPopulation[0]),
-                self.crossOver(tempPopulation[2], tempPopulation[3]),
-                self.crossOver(tempPopulation[3], tempPopulation[2])
-            ]
-            self.fitness = [self.FitnessFunction(self.population[0]), self.FitnessFunction(self.population[1]), self.FitnessFunction(self.population[2]), self.FitnessFunction(self.population[3])]
-            
+            if (uniform(0, 1) >= 0.2):
+                self.mutate(self.population)
         
     def maxAttack(self, board):
         cnt_4 = 0
@@ -73,3 +79,6 @@ class GeneticAlgorithm():
         individu = b.Board(newListPawn)
 
         return individu
+    
+    def mutate(self, parents):
+        return 0
