@@ -10,13 +10,25 @@ def readFile(filename):
         line = line.strip()
         line2 = line.split(" ")
         if line2[1] == "KNIGHT":
-            pawn = b.Knight()
+            if line2[0].lower() == 'black' :
+                pawn = b.Knight(False)
+            else :
+                pawn = b.Knight(True)
         elif line2[1] == "BISHOP":
-            pawn = b.Bishop()
+            if line2[0].lower() == 'black' :
+                pawn = b.Bishop(False)
+            else :
+                pawn = b.Bishop(True)
         elif line2[1] == "ROOK":
-            pawn = b.Rook()
+            if line2[0].lower() == 'black' :
+                pawn = b.Rook(False)
+            else :
+                pawn = b.Rook(True)
         else:
-            pawn = b.Queen()
+            if line2[0].lower() == 'black' :
+                pawn = b.Queen(False)
+            else :
+                pawn = b.Queen(True)
         n = int(line2[2])
 
         if n != 0 :
@@ -27,38 +39,15 @@ def readFile(filename):
 
     return listPawn
 
-def output(board):
-    for x in range(0, 8):
-        for y in range(0, 8):
-            found = False
-            for pawn in board.listPawn:
-                if pawn.x == x and pawn.y == y:
-                    if isinstance(pawn, b.Queen):
-                        print('Q', end='')
-                        found = True
-                        break
-                    elif isinstance(pawn, b.Bishop):
-                        print('B', end='')
-                        found = True
-                        break
-                    elif isinstance(pawn, b.Rook):
-                        print('R', end='')
-                        found = True
-                        break
-                    elif isinstance(pawn, b.Knight):
-                        print('K', end='')
-                        found = True
-                        break
-            if not found:
-                print('.', end='')
-        print('\n', end='')
-        
-    print(board.cost(), end=' ')
-    print('0')
-
 fn = input("Please enter filename: ")
 listPawn = readFile(fn)
+<<<<<<< HEAD
 popNum = int(input("Enter number of population: "))
 maxIter = int(input("Enter number of maximum iteration: "))
 tes = ga.GeneticAlgorithm(listPawn, popNum, maxIter)
 output(tes.result)
+=======
+
+tes = sa.SimulatedAnnealing(listPawn)
+tes.board.output()
+>>>>>>> dae9656b4f8419f3b499cc08464092d1c9491fda
