@@ -201,7 +201,7 @@ class Board:
     def cost(self):
         same, diff = self.allCost()
 
-        return same
+        return same - diff
 
     def allCost(self):
         same, diff = (0, 0)

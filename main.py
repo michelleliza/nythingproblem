@@ -2,6 +2,7 @@ import board as b
 import sa
 import copy
 import ga
+import hillclimb as hc
 
 def readFile(filename):
     listPawn = []
@@ -41,13 +42,20 @@ def readFile(filename):
 
 fn = input("Please enter filename: ")
 listPawn = readFile(fn)
-<<<<<<< HEAD
-popNum = int(input("Enter number of population: "))
-maxIter = int(input("Enter number of maximum iteration: "))
-tes = ga.GeneticAlgorithm(listPawn, popNum, maxIter)
-output(tes.result)
-=======
 
-tes = sa.SimulatedAnnealing(listPawn)
-tes.board.output()
->>>>>>> dae9656b4f8419f3b499cc08464092d1c9491fda
+print("Choose Local Search Algorithm")
+print("1. Hill Climbing")
+print("2. Simulated Annealing")
+print("3. Genetic Algorithm")
+option = input('Enter the number : ')
+if option == '1' :
+    alg = hc.HillClimbing(listPawn)
+    alg.board.output()
+elif option == '2' :
+    alg = sa.SimulatedAnnealing(listPawn)
+    alg.board.output()
+else :
+    popNum = int(input("Enter number of population: "))
+    maxIter = int(input("Enter number of maximum iteration: "))
+    alg = ga.GeneticAlgorithm(listPawn, popNum, maxIter)
+    alg.result.output()

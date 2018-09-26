@@ -7,6 +7,7 @@ class SimulatedAnnealing() :
     def __init__(self, listPawn) :
         # initial config
         self.board = b.Board(listPawn)
+        self.board.initPawn()
         oldCost = self.board.cost()
 
         # initial temperature
@@ -52,9 +53,9 @@ class SimulatedAnnealing() :
                         # keep the current solution
                         count += 1
                 
-                if newCost == 0 :
-                    # halt when cost is already 0 (global minima)
-                    return
+                # if newCost == 0 :
+                #     # halt when cost is already 0 (global minima)
+                #     return
 
             self.t *= self.alpha
         

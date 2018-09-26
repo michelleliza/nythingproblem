@@ -5,6 +5,7 @@ class HillClimbing():
     def __init__(self, listPawn):
         #initial config
         self.board = b.Board(listPawn)
+        self.board.initPawn()
         stop = False
 
         while not stop:
