@@ -7,6 +7,7 @@ class SimulatedAnnealing() :
     def __init__(self, listPawn) :
         # initial config
         self.board = b.Board(listPawn)
+        self.board.output()
         oldCost = self.board.cost()
 
         # initial temperature

@@ -220,6 +220,7 @@ class Board:
                 for pawn in self.listPawn:
                     if pawn.x == x and pawn.y == y:
                         pawn.output()
+                        found = True
                 if not found:
                     print('.', end='')
             print('\n', end='')
