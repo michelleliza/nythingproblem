@@ -139,13 +139,13 @@ class Board:
 # for debug only
 def printListPawn(listPawn) :
     for pawn in listPawn:
-        if isinstance(pawn, b.Queen):
+        if isinstance(pawn, Queen):
             print('Q', end=' ')
-        elif isinstance(pawn, b.Bishop):
+        elif isinstance(pawn, Bishop):
             print('B', end=' ')
-        elif isinstance(pawn, b.Rook):
+        elif isinstance(pawn, Rook):
             print('R', end=' ')
-        elif isinstance(pawn, b.Knight):
+        elif isinstance(pawn, Knight):
             print('K', end=' ')
         print(pawn.x, end=' ')
         print(pawn.y, end='\n')
