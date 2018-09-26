@@ -11,15 +11,23 @@ class GeneticAlgorithm():
         self.fitness = []
         for i in range(popNum):
             bt = b.Board(listPawn)
+            bt.initPawn()
+
             self.population.append(bt)
             self.fitness.append(self.FitnessFunction(bt))
 
         iteration = 0
-        maxFitness = self.maxAttack(self.population)
+        maxFitness = self.maxAttack(self.population[0])
+
+        #buat cek doang ini
+        for i in self.population:
+            b.printListPawn(i.listPawn)
+            print('---------------------')
 
         while True:
 
             tempPopulation = []
+          
             while len(self.population) > 0:
                 maks = max(self.fitness)
                 idxToRemove = self.fitness.index(maks)
@@ -29,7 +37,7 @@ class GeneticAlgorithm():
 
             self.population = []
             self.fitness = []
-            for i in range(0, 2, popNum):
+            for i in range(0, popNum, 2):
                 new1 = self.crossOver(tempPopulation[i], tempPopulation[i+1])
                 new2 = self.crossOver(tempPopulation[i+1], tempPopulation[i])
                 self.population.append(new1)
@@ -38,7 +46,12 @@ class GeneticAlgorithm():
                 self.fitness.append(new2)
 
             iteration += 1    
- 
+
+            for i in self.population:
+                b.printListPawn(i.listPawn)
+                print('+++++++++')
+
+
             if iteration == 1 or (maxFitness in self.fitness):
                 break
             
@@ -70,14 +83,13 @@ class GeneticAlgorithm():
                 break
             i += 1
 
-        i = 1
+        j = 1
         for pawn2 in parent2.listPawn:
-            if i == len(parent2.listPawn) // 2 + 1:
+            if j >= (i + 1):
                 newListPawn.append(pawn2)
-            i += 1
+            j += 1
 
         individu = b.Board(newListPawn)
-
         return individu
     
     def mutate(self, parents):
