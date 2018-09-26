@@ -29,6 +29,10 @@ class Pawn(ABC):
         return (0, 0)
 
     @abstractmethod
+    def output(self):
+        pass
+
+    @abstractmethod
     def hit(self, listPawn):
         pass
 
@@ -71,6 +75,12 @@ class Queen(Pawn):
 
         return (same, diff)
 
+    def output(self) :
+        if self.isWhite :
+            print('Q', end='')
+        else :
+            print('q', end='')
+
 class Knight(Pawn):
     def hit(self, listPawn):
         same, diff = (0, 0)
@@ -81,7 +91,12 @@ class Knight(Pawn):
                 else :
                     diff += 1
         return (same, diff)
-     
+
+    def output(self) :
+        if self.isWhite :
+            print('K', end='')
+        else :
+            print('k', end='')
 
 class Bishop(Pawn):
     def hit(self, listPawn):
@@ -105,6 +120,12 @@ class Bishop(Pawn):
         diff += temp2
 
         return (same, diff)
+
+    def output(self) :
+        if self.isWhite :
+            print('B', end='')
+        else :
+            print('b', end='')
 
 class Rook(Pawn):
     def hit(self, listPawn):
@@ -155,6 +176,12 @@ class Rook(Pawn):
             a += 1
         return (same, diff)
 
+    def output(self) :
+        if self.isWhite :
+            print('R', end='')
+        else :
+            print('r', end='')
+
 class Board:
     def __init__(self, listPawn):
         self.listPawn = listPawn
@@ -173,13 +200,18 @@ class Board:
                     break
 
     def cost(self):
+        same, diff = self.allCost()
+
+        return same
+
+    def allCost(self):
         same, diff = (0, 0)
         for pawn in self.listPawn :
             temp1, temp2 = pawn.hit(self.listPawn)
             same += temp1
             diff += temp2
 
-        return same
+        return (same, diff)
 
     def output(self):
         for x in range(0, 8):
@@ -187,28 +219,13 @@ class Board:
                 found = False
                 for pawn in self.listPawn:
                     if pawn.x == x and pawn.y == y:
-                        if isinstance(pawn, Queen):
-                            print('Q', end='')
-                            found = True
-                            break
-                        elif isinstance(pawn, Bishop):
-                            print('B', end='')
-                            found = True
-                            break
-                        elif isinstance(pawn, Rook):
-                            print('R', end='')
-                            found = True
-                            break
-                        elif isinstance(pawn, Knight):
-                            print('K', end='')
-                            found = True
-                            break
+                        pawn.output()
                 if not found:
                     print('.', end='')
             print('\n', end='')
-            
-        print(self.cost(), end=' ')
-        print('0')
+        
+        same, diff = self.allCost()
+        print("%d %d" % (same, diff))
 
 # for debug only
 def printListPawn(listPawn) :
