@@ -57,4 +57,5 @@ else : # genetic algorithm
     maxIter = int(input("Enter number of maximum iteration: "))
     alg = ga.GeneticAlgorithm(listPawn, popNum, maxIter)
     alg.result.output()
+    # for debug purpose
     b.printListPawn(alg.result.listPawn)
