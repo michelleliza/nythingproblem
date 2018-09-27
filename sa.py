@@ -2,6 +2,7 @@ from random import randint, uniform
 import board as b
 import copy
 import math
+import random
 
 class SimulatedAnnealing() :
     def __init__(self, listPawn) :
@@ -62,22 +63,25 @@ class SimulatedAnnealing() :
     def newSolutionSA(self) :
     # do random move to get new solution
         while True :
-            n = randint(0, len(self.board.listPawn) - 1)
-            x = randint(0, 7)
-            y = randint(0, 7)
-            found = False
+            # find empty place
+            empty = copy.deepcopy(allPlace)
 
-            # make sure the new x and y is empty
+            # delete place that already has pawn
             for pawn in self.board.listPawn :
-                if (pawn.x == x and pawn.y == y) :
-                    found = True
-                    break
+                empty.remove((pawn.x, pawn.y))
 
-            if not found :
+            if empty :
+                try :
+                    n = randint(0, len(self.board.listPawn) - 1)
+                except ValueError :
+                    return self.board
                 newBoard = copy.deepcopy(self.board)
+                (x, y) = random.choice(empty)
                 newBoard.listPawn[n].x = x
                 newBoard.listPawn[n].y = y
                 return newBoard
+            else : # there is no empty place
+                return self.board
 
     def boltzman(self, oldCost, newCost) :
     # calculate acceptance probabilty with boltzman distribution
@@ -90,3 +94,8 @@ class SimulatedAnnealing() :
                 return 1
             # newCost > oldCost
             return 0
+
+allPlace = []
+for i in range(0,8):
+    for j in range(0,8):
+        allPlace.append((i, j))

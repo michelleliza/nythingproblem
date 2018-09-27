@@ -6,6 +6,7 @@ import hillclimb as hc
 
 def readFile(filename):
     listPawn = []
+    count = 0
     file = open(filename, 'r')
     for line in file:
         line = line.strip()
@@ -33,29 +34,36 @@ def readFile(filename):
         n = int(line2[2])
 
         for i in range(0,n):
+            count += 1
+            if count > 64 :
+                return None
             listPawn.append(copy.deepcopy(pawn))
 
     return listPawn
 
-# input filename from user
-fn = input("Please enter filename: ")
-listPawn = readFile(fn)
+if __name__ == "__main__":
+    # input filename from user
+    fn = input("Please enter filename: ")
+    listPawn = readFile(fn)
 
-print("Choose Local Search Algorithm")
-print("1. Hill Climbing")
-print("2. Simulated Annealing")
-print("3. Genetic Algorithm")
-option = input('Enter the number : ')
-if option == '1' : # hill climbing
-    alg = hc.HillClimbing(listPawn)
-    alg.board.output()
-elif option == '2' : # simulated annealing
-    alg = sa.SimulatedAnnealing(listPawn)
-    alg.board.output()
-else : # genetic algorithm
-    popNum = int(input("Enter number of population: "))
-    maxIter = int(input("Enter number of maximum iteration: "))
-    alg = ga.GeneticAlgorithm(listPawn, popNum, maxIter)
-    alg.result.output()
-    # for debug purpose
-    b.printListPawn(alg.result.listPawn)
+    if listPawn != None :
+        print("Choose Local Search Algorithm")
+        print("1. Hill Climbing")
+        print("2. Simulated Annealing")
+        print("3. Genetic Algorithm")
+        option = input('Enter the number : ')
+        if option == '1' : # hill climbing
+            alg = hc.HillClimbing(listPawn)
+            alg.board.output()
+        elif option == '2' : # simulated annealing
+            alg = sa.SimulatedAnnealing(listPawn)
+            alg.board.output()
+        else : # genetic algorithm
+            popNum = int(input("Enter number of population: "))
+            maxIter = int(input("Enter number of maximum iteration: "))
+            alg = ga.GeneticAlgorithm(listPawn, popNum, maxIter)
+            alg.result.output()
+            # for debug purpose
+            # b.printListPawn(alg.result.listPawn)
+    else :
+        print("Too much pawns (max: 64)")
