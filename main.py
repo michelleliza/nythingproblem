@@ -32,14 +32,12 @@ def readFile(filename):
                 pawn = b.Queen(True)
         n = int(line2[2])
 
-        if n != 0 :
-            listPawn.append(pawn)
-            for i in range(1,n):
-                temp = copy.deepcopy(pawn)
-                listPawn.append(temp)
+        for i in range(0,n):
+            listPawn.append(copy.deepcopy(pawn))
 
     return listPawn
 
+# input filename from user
 fn = input("Please enter filename: ")
 listPawn = readFile(fn)
 
@@ -48,13 +46,13 @@ print("1. Hill Climbing")
 print("2. Simulated Annealing")
 print("3. Genetic Algorithm")
 option = input('Enter the number : ')
-if option == '1' :
+if option == '1' : # hill climbing
     alg = hc.HillClimbing(listPawn)
     alg.board.output()
-elif option == '2' :
+elif option == '2' : # simulated annealing
     alg = sa.SimulatedAnnealing(listPawn)
     alg.board.output()
-else :
+else : # genetic algorithm
     popNum = int(input("Enter number of population: "))
     maxIter = int(input("Enter number of maximum iteration: "))
     alg = ga.GeneticAlgorithm(listPawn, popNum, maxIter)
