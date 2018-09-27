@@ -71,6 +71,7 @@ class SimulatedAnnealing() :
                 empty.remove((pawn.x, pawn.y))
 
             if empty :
+                # handle when self.board.listPawn == 0
                 try :
                     n = randint(0, len(self.board.listPawn) - 1)
                 except ValueError :
@@ -95,6 +96,7 @@ class SimulatedAnnealing() :
             # newCost > oldCost
             return 0
 
+# get all place
 allPlace = []
 for i in range(0,8):
     for j in range(0,8):
