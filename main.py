@@ -59,8 +59,21 @@ if __name__ == "__main__":
             alg = sa.SimulatedAnnealing(listPawn)
             alg.board.output()
         else : # genetic algorithm
-            popNum = int(input("Enter number of population: "))
-            maxIter = int(input("Enter number of maximum iteration: "))
+
+            while True:
+                popNum = int(input("Enter number of population: "))
+
+                if popNum > 1:
+                    break
+                print('Population number must be greater than 1')
+                
+            while True:
+                maxIter = int(input("Enter number of maximum iteration: "))
+
+                if maxIter > 0:
+                    break
+                print('Maximum iteration at least 1')
+
             alg = ga.GeneticAlgorithm(listPawn, popNum, maxIter)
             alg.result.output()
             # for debug purpose
