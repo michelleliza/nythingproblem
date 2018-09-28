@@ -96,7 +96,8 @@ class GeneticAlgorithm():
     def crossOver(self, parent1, parent2):
 
         # menentukan posisi pemotongan
-        cut = randint(2, len(parent1.listPawn) - 1)
+        if (len(parent1.listPawn) != 0):
+            cut = randint(2, len(parent1.listPawn) - 1)
 
         newListPawn = []
 
