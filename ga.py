@@ -20,9 +20,9 @@ class GeneticAlgorithm():
         maxFitness = self.maxAttack(self.population[0])
 
         #buat cek doang ini
-        #for i in self.population:
-        #    b.printListPawn(i.listPawn)
-        #    print('---------------------')
+        # for i in self.population:
+        #     b.printListPawn(i.listPawn)
+        #     print('---------------------')
 
         while True:
 
@@ -59,6 +59,8 @@ class GeneticAlgorithm():
             #   b.printListPawn(i.listPawn)
             #    print('+++++++++')
 
+            print("Iterasi ke", iteration, "; Max Fitness =", max(self.fitness))
+
             if iteration == maxIteration:
                 print('Reach maximum steps')
                 maks = max(self.fitness)
@@ -72,7 +74,7 @@ class GeneticAlgorithm():
                 break
             
             p = uniform(0, 1)
-            if (p >= 0.2):
+            if (p <= 0.2):
                 self.mutate(self.population)
     
     # maksimum total attack tiap pawn
@@ -115,4 +117,33 @@ class GeneticAlgorithm():
         return individu
     
     def mutate(self, parents):
-        return 0
+        # parents adalah population
+        
+        
+        # generate random index untuk memilih index board
+        randIdx = randint(0, len(self.population)-1)
+        selectedGene = parents[randIdx].listPawn
+
+        b.printListPawn(parents[randIdx].listPawn)
+        print("------------------")
+        # Select a random mutation point
+        randPawn = randint(0, len(selectedGene)-1)
+        
+        # Select a random position for the pawn
+        listPos = []
+        for pawn in selectedGene:
+            x = pawn.x
+            y = pawn.y
+            listPos.append((x, y))
+        
+        while True:
+            x = randint(0,7)
+            y = randint(0,7)
+            if (x,y) not in listPos :
+                selectedGene[randPawn].x = x
+                selectedGene[randPawn].y = y
+                break
+
+        b.printListPawn(parents[randIdx].listPawn)
+        print("------------------")
+        return parents
