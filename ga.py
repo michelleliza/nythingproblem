@@ -37,10 +37,14 @@ class GeneticAlgorithm():
                 del(self.population[idxToRemove])
                 del(self.fitness[idxToRemove])                
 
+            # individu terbaik dipertahankan
+            self.population.append(tempPopulation[0])
+            self.fitness.append(self.FitnessFunction(self.population[-1]))                    
+
             # proses crossover
             # individu dengan FitnessFunction terbaik menjadi parent utama
             # individu dengan FitnessFunction terendah dibuang
-            for i in range (1, popNum):
+            for i in range (1, popNum-1):
                 if (i == 1):
                     self.population.append(self.crossOver(tempPopulation[0], tempPopulation[i]))                    
                     self.fitness.append(self.FitnessFunction(self.population[-1]))                    
@@ -55,9 +59,9 @@ class GeneticAlgorithm():
 
             iteration += 1    
 
-            #for i in self.population:
-            #   b.printListPawn(i.listPawn)
-            #    print('+++++++++')
+            for i in self.population:
+               b.printListPawn(i.listPawn)
+            print('+++++++++')
 
             print("Iterasi ke", iteration, "; Max Fitness =", max(self.fitness))
 
@@ -125,7 +129,7 @@ class GeneticAlgorithm():
         randIdx = randint(0, len(self.population)-1)
         selectedGene = parents[randIdx].listPawn
 
-        b.printListPawn(parents[randIdx].listPawn)
+        #b.printListPawn(parents[randIdx].listPawn)
         print("------------------")
         # Select a random mutation point
         randPawn = randint(0, len(selectedGene)-1)
