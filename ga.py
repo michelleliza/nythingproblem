@@ -19,7 +19,7 @@ class GeneticAlgorithm():
         iteration = 0
         maxFitness = self.maxAttack(self.population[0])
 
-        #buat cek doang ini
+        # debug
         # for i in self.population:
         #     b.printListPawn(i.listPawn)
         #     print('---------------------')
@@ -27,43 +27,37 @@ class GeneticAlgorithm():
         while True:
 
             tempPopulation = []
-
+            
             # proses selection
             # sorting sesuai hasil FitnessFunction
-            while len(self.population) > 0:
+            while len(self.population) > 0 and len(self.fitness) > 0:
                 maks = max(self.fitness)
+                print('maks self fitness = ',maks)
                 idxToRemove = self.fitness.index(maks)
                 tempPopulation.append(self.population[idxToRemove])
                 del(self.population[idxToRemove])
                 del(self.fitness[idxToRemove])                
 
             # individu terbaik dipertahankan
-            self.population.append(tempPopulation[0])
-            self.fitness.append(self.FitnessFunction(self.population[-1]))                    
+            self.population.append(tempPopulation[0])                    
 
             # proses crossover
             # individu dengan FitnessFunction terbaik menjadi parent utama
             # individu dengan FitnessFunction terendah dibuang
-            for i in range (1, popNum-1):
+            for i in range (1, popNum-1):   
                 if (i == 1):
-                    self.population.append(self.crossOver(tempPopulation[0], tempPopulation[i]))                    
-                    self.fitness.append(self.FitnessFunction(self.population[-1]))                    
-                    self.population.append(self.crossOver(tempPopulation[i], tempPopulation[0]))
-                    self.fitness.append(self.FitnessFunction(self.population[-1]))                    
-                elif (i % 2 == 0):
-                    self.population.append(self.crossOver(tempPopulation[0], tempPopulation[i]))
-                    self.fitness.append(self.FitnessFunction(self.population[-1]))                    
+                    self.population.append(self.crossOver(tempPopulation[0], tempPopulation[1]))                                       
+                    self.population.append(self.crossOver(tempPopulation[1], tempPopulation[0]))   
                 else:
-                    self.population.append(self.crossOver(tempPopulation[i], tempPopulation[0]))
-                    self.fitness.append(self.FitnessFunction(self.population[-1]))                    
+                    self.population.append(tempPopulation[i])                   
 
             iteration += 1    
 
+            # self.fitness diupdate setelah crossover
             for i in self.population:
-               b.printListPawn(i.listPawn)
-            print('+++++++++')
+               self.fitness.append(self.FitnessFunction(i))
 
-            print("Iterasi ke", iteration, "; Max Fitness =", max(self.fitness))
+            print("Iterasi ke", iteration, "; Max Fitness =", max(self.fitness), 'idx = ', self.fitness.index(max(self.fitness)))
 
             if iteration == maxIteration:
                 print('Reach maximum steps')
@@ -77,9 +71,24 @@ class GeneticAlgorithm():
                 self.result = self.population[idxResult]
                 break
             
+            # proses mutasi
             p = uniform(0, 1)
-            if (p <= 0.2):
+            if (p >= 0.1):
                 self.mutate(self.population)
+
+                # self.fitness diupdate jika terjadi mutasi
+                self.fitness = []
+                for i in self.population:
+                    self.fitness.append(self.FitnessFunction(i))
+            
+            # debug
+            # idx=0
+            # for i in self.population:
+            #    b.printListPawn(i.listPawn)
+            #    print('fitness func = ',self.FitnessFunction(i))
+            #    print(self.fitness[idx])
+            #    idx+=1
+            #    print('---')
     
     # maksimum total attack tiap pawn
     def maxAttack(self, board):
@@ -99,38 +108,49 @@ class GeneticAlgorithm():
     # setengah pawn baru dari parent1, setengah pawn dari parent2
     def crossOver(self, parent1, parent2):
 
-        # menentukan posisi pemotongan
-        if (len(parent1.listPawn) != 0):
-            cut = randint(2, len(parent1.listPawn) - 1)
+        # loop untuk memastikan posisi pawn beda-beda
+        while True:
+            
+            # menentukan posisi pemotongan
+            if (len(parent1.listPawn) != 0):
+                cut = randint(2, len(parent1.listPawn) - 1)
 
-        newListPawn = []
+            newListPawn = []
 
-        i = 1
-        for pawn1 in parent1.listPawn:
-            newListPawn.append(pawn1)
-            if i == len(parent1.listPawn) // cut:
+            i = 1
+            for pawn1 in parent1.listPawn:
+                newListPawn.append(copy.deepcopy(pawn1))
+                if i == cut:
+                    break
+                i += 1
+
+            j = 1
+            for pawn2 in parent2.listPawn:
+                if j >= (i + 1):
+                    newListPawn.append(copy.deepcopy(pawn2))
+                j += 1
+
+            listPos = []
+
+            for pawn in newListPawn:
+                x = pawn.x
+                y = pawn.y
+                listPos.append((x, y))
+            listPosSet = set(listPos)
+
+            if len(listPos) == len(listPosSet):
                 break
-            i += 1
-
-        j = 1
-        for pawn2 in parent2.listPawn:
-            if j >= (i + 1):
-                newListPawn.append(pawn2)
-            j += 1
 
         individu = b.Board(newListPawn)
+
         return individu
     
     def mutate(self, parents):
         # parents adalah population
-        
-        
         # generate random index untuk memilih index board
-        randIdx = randint(0, len(self.population)-1)
+        randIdx = randint(1, len(self.population)-1)
         selectedGene = parents[randIdx].listPawn
 
-        #b.printListPawn(parents[randIdx].listPawn)
-        print("------------------")
         # Select a random mutation point
         randPawn = randint(0, len(selectedGene)-1)
         
@@ -145,10 +165,9 @@ class GeneticAlgorithm():
             x = randint(0,7)
             y = randint(0,7)
             if (x,y) not in listPos :
+                print("x,y = ",x,y)
                 selectedGene[randPawn].x = x
                 selectedGene[randPawn].y = y
                 break
 
-        b.printListPawn(parents[randIdx].listPawn)
-        print("------------------")
-        return parents
+        parents[randIdx].listPawn = copy.deepcopy(selectedGene)

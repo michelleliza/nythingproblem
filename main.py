@@ -58,7 +58,7 @@ if __name__ == "__main__":
         elif option == '2' : # simulated annealing
             alg = sa.SimulatedAnnealing(listPawn)
             alg.board.output()
-        else : # genetic algorithm
+        elif option == '3' : # genetic algorithm
 
             while True:
                 popNum = int(input("Enter number of population: "))
@@ -78,5 +78,7 @@ if __name__ == "__main__":
             alg.result.output()
             # for debug purpose
             # b.printListPawn(alg.result.listPawn)
+        else :
+            print('Wrong number')
     else :
         print("Too much pawns (max: 64)")
