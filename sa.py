@@ -15,7 +15,7 @@ class SimulatedAnnealing() :
         self.t = 1000 
         # temperature gradually decrease by alpha
         self.alpha = 0.9 
-        # count is used for halt
+        # count calculate the number of iterations when the cost is the same in a row
         count = 0 
         # halt when n iteration doesn't get new solution (stuck) or get the same cost with new solution
         halt = 500 
@@ -28,10 +28,18 @@ class SimulatedAnnealing() :
                 # calculate new cost
                 newCost = newBoard.cost()
                 
-                if newCost < oldCost :
+                if newCost <= oldCost :
                     # accept the solution because new solution is "good" moves
                     # change the current solution to the new solution
+                    # accept same cost because the ap value will be 1 (if newCost == oldCost)
                     self.board = newBoard
+
+                    # add count if oldCost == newCost
+                    if oldCost == newCost :
+                        count += 1
+                    else :
+                        count = 0
+
                     oldCost = newCost
                 else :
                     # accept the solution ("bad" moves) only with probability
@@ -41,23 +49,12 @@ class SimulatedAnnealing() :
                     if ap > uniform(0, 1) :
                         # change the current solution to the new solution
                         self.board = newBoard
-                        
-                        # add count if oldCost == newCost
-                        if oldCost == newCost :
-                            count += 1
-                        else :
-                            count = 0
-
                         oldCost = newCost
-
+                        count = 0
                     else :
                         # keep the current solution
                         count += 1
                 
-                # if newCost == 0 :
-                #     # halt when cost is already 0 (global minima)
-                #     return
-
             self.t *= self.alpha
         
     def newSolutionSA(self) :
@@ -96,7 +93,7 @@ class SimulatedAnnealing() :
             # newCost > oldCost
             return 0
 
-# get all place
+# get all place so don't have to iterate 8^2 
 allPlace = []
 for i in range(0,8):
     for j in range(0,8):
