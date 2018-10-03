@@ -44,7 +44,7 @@ class GeneticAlgorithm():
             self.fitness = self.PopulationFitness(self.population)
             iteration += 1
 
-            print("Iterasi ke", iteration, "; Max Fitness =", max(self.fitness), self.fitness)
+            # print("Iterasi ke", iteration, "; Max Fitness =", max(self.fitness), self.fitness)
 
             if iteration == maxIteration:
                 print('Reach maximum steps')
@@ -54,6 +54,7 @@ class GeneticAlgorithm():
                 break
 
             if (maxFitness in self.fitness):
+                print('Iterasi ke', iteration)
                 # idxResult = self.fitness.index(maxFitness)
                 self.result = self.population[0]
                 break
