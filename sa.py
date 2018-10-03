@@ -87,10 +87,7 @@ class SimulatedAnnealing() :
             return math.exp(-(newCost - oldCost)/self.t)
         except OverflowError:
             # overflow when temperature too low (limit approaching 0)
-            if newCost == oldCost :
-                # return 1 because exp(0) is 1
-                return 1
-            # newCost > oldCost
+            # newCost always > oldCost
             return 0
 
 # get all place so don't have to iterate 8^2 

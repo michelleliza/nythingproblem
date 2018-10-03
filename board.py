@@ -14,6 +14,7 @@ class Pawn(ABC):
         self.y = -1
         self.isWhite = isWhite
 
+    # check whether pawn hit another pawn or not (for Bishop and Queen)
     def checkHit(self, listPawn, xAlpha, yAlpha):
         x = self.x + xAlpha
         y = self.y + yAlpha
@@ -30,10 +31,12 @@ class Pawn(ABC):
 
     @abstractmethod
     def output(self):
+        # for print purpose
         pass
 
     @abstractmethod
     def hit(self, listPawn):
+        # calculate the cost for each pawn
         pass
 
 class Queen(Pawn):
